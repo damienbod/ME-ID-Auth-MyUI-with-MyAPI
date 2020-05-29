@@ -29,10 +29,10 @@ namespace MyServerRenderedPortal
             {
                 var client = _clientFactory.CreateClient();
 
-                var scope = _configuration["CallApi:ApiBaseAddress"];
+                var scope = _configuration["CallApi:ScopeForAccessToken"];
                 var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { scope });
 
-                client.BaseAddress = new Uri(_configuration["CallApi:ScopeForAccessToken"]);
+                client.BaseAddress = new Uri(_configuration["CallApi:ApiBaseAddress"]);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
        

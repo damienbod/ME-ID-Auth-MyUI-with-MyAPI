@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
+using Microsoft.Identity.Web.UI;
 
 namespace MyServerRenderedPortal
 {
@@ -31,15 +32,13 @@ namespace MyServerRenderedPortal
             services.AddWebAppCallsProtectedWebApi(Configuration, new string[] { Configuration["CallApi:ScopeForAccessToken"] })
                     .AddInMemoryTokenCaches();
 
-            // .AddMicrosoftIdentityUI();
-
             services.AddRazorPages().AddMvcOptions(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddMicrosoftIdentityUI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
