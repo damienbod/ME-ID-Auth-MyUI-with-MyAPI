@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace MyServerRenderedPortal.Pages
@@ -7,6 +8,7 @@ namespace MyServerRenderedPortal.Pages
     {
         private readonly ApiService _apiService;
 
+        public JArray DataFromApi { get; set; }
         public CallApiModel(ApiService apiService)
         {
             _apiService = apiService;
@@ -14,7 +16,7 @@ namespace MyServerRenderedPortal.Pages
 
         public async Task OnGetAsync()
         {
-            var data = await _apiService.GetApiDataAsync();
+            DataFromApi = await _apiService.GetApiDataAsync();
         }
     }
 }
