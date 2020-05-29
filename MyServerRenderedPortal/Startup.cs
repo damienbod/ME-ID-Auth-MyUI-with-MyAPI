@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
 
 namespace MyServerRenderedPortal
 {
@@ -23,8 +25,13 @@ namespace MyServerRenderedPortal
             services.AddTransient<ApiService>();
             services.AddHttpClient();
 
-            services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
-                .AddAzureAD(options => Configuration.Bind("AzureAd", options));
+            services.AddOptions();
+
+            services.AddSignIn(Configuration);
+            services.AddWebAppCallsProtectedWebApi(Configuration, new string[] { Configuration["CallApi:ScopeForAccessToken"] })
+                    .AddInMemoryTokenCaches();
+
+            // .AddMicrosoftIdentityUI();
 
             services.AddRazorPages().AddMvcOptions(options =>
             {
