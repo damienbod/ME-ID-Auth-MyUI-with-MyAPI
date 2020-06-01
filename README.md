@@ -1,4 +1,4 @@
-# Azure AD authenticationa and authorization
+# Azure AD authentication and authorization
 
 different examples of implementing UIs, APIs using Azure AD as the token server. 
 
