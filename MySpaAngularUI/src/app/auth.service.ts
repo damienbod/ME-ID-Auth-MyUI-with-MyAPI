@@ -29,4 +29,8 @@ export class AuthService {
   signOut() {
     this.oidcSecurityService.logoff();
   }
+
+  forceRefreshSession() {
+    return this.oidcSecurityService.forceRefreshSession();
+  }
 }

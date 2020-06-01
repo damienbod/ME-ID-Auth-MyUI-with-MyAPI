@@ -19,7 +19,7 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
             responseType: 'code',
             silentRenew: true,
             maxIdTokenIatOffsetAllowedInSeconds: 600,
-            issValidationOff: true,
+            issValidationOff: false, // this needs to be true if using a common endpoint in Azure
             autoUserinfo: false,
             silentRenewUrl: window.location.origin + '/silent-renew.html',
             logLevel: LogLevel.Debug

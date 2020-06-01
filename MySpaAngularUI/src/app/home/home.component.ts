@@ -31,6 +31,12 @@ export class HomeComponent implements OnInit {
     this.authservice.signIn();
   }
 
+  forceRefreshSession() {
+    this.authservice.forceRefreshSession().subscribe((data) => {
+      console.log('Refresh completed');
+    });
+  }
+
   logout() {
     this.authservice.signOut();
   }
