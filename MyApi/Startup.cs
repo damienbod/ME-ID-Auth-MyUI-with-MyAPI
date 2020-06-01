@@ -54,7 +54,7 @@ namespace MyApi
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
-                  //  .RequireClaim("email")
+                    .RequireClaim("email")
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
