@@ -10,6 +10,10 @@ https://damienbod.com/2020/05/29/login-and-use-asp-net-core-api-with-azure-ad-au
 
 https://damienbod.com/2020/06/08/angular-spa-with-an-asp-net-core-api-using-azure-ad-auth-and-user-access-tokens/
 
+## Restricting access to an Azure AD protected API using Azure AD Groups
+
+https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api-using-azure-ad-groups/
+
 # Links
 
 https://github.com/AzureAD/microsoft-identity-web
