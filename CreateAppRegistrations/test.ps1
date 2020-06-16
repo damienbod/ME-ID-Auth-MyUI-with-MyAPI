@@ -20,14 +20,15 @@ Write-Host "- oauth2Permissions -----------"
 Write-Host "$oauth2Permissions" 
 
 # 3. disable
-#az ad app update --id $appId --set oauth2Permissions=$oauth2Permissions
+$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsold.json
+az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
 
 # 4. delete
-#az ad app update --id $appId --set oauth2Permissions='[]'
+az ad app update --id $appId --set oauth2Permissions='[]'
 
 # 5. add new scope add the new oauth2Permissions values
 
-$userAccessScope = '[{
+$userAccessScope = '{
 		"lang": null,
 		"origin": "Application",		
 		"adminConsentDescription": "Allow access to the API",
@@ -38,9 +39,8 @@ $userAccessScope = '[{
 		"userConsentDescription": "Allow access to my-api access_as_user",
 		"userConsentDisplayName": "Allow access to my-api",
 		"value": "access_as_user"
-}]' | ConvertTo-Json | ConvertFrom-Json
+}' | ConvertTo-Json | ConvertFrom-Json
 
-#$oauth2PermissionsNew = @()
 $oauth2PermissionsNew += (ConvertFrom-Json -InputObject $userAccessScope)
 $oauth2PermissionsNew[0].id = $identifier 
 $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew) 
@@ -48,9 +48,6 @@ $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew)
 Write-Host "- oauth2PermissionsNew --------"
 Write-Host "$oauth2PermissionsNew" 
 
-# az ad app update --id $appId --set oauth2Permissions=$oauth2PermissionsNew
-
-
-
-# az ad app update --id $appId --set oauth2Permissions=`@api_scopes.json
+$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsnew.json
+az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
 
