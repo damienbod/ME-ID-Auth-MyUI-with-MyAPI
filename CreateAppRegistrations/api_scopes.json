@@ -1,26 +1,24 @@
 [
-	{
-		"adminConsentDescription": "Allow the application to access mi-api on behalf of the signed-in user.",
-		"adminConsentDisplayName": "Access mi-api",
-		"id": "39e51189-b253-44a0-a0ad-9ae73c53f8d3",
-		"isEnabled": false,
-		"lang": null,
-		"origin": "Application",
-		"type": "User",
-		"userConsentDescription": "Allow the application to access mi-api on your behalf.",
-		"userConsentDisplayName": "Access mi-api",
-		"value": "user_impersonation"
-	},
-	{
-		"lang": null,
-		"origin": "Application",		
-		"adminConsentDescription": "Allow access to the API",
-		"adminConsentDisplayName": "my-api-access",
-		"id": "abaced8d-bb7d-4d9c-a7f9-7b8a676decda",
-		"isEnabled": true,
-		"type": "User",
-		"userConsentDescription": "Allow access to my-api access_as_user",
-		"userConsentDisplayName": "Allow access to my-api",
-		"value": "access_as_user"
-	}
+    {
+        "adminConsentDescription":  "Allow the application to access mi-api on behalf of the signed-in user.",
+        "adminConsentDisplayName":  "Access mi-api",
+        "id":  "315befff-bc37-4eb2-8da0-1a0b25b24d71",
+        "isEnabled":  "false",
+        "type":  "User",
+        "userConsentDescription":  "Allow the application to access mi-api on your behalf.",
+        "userConsentDisplayName":  "Access mi-api",
+        "value":  "user_impersonation"
+    },
+    {
+        "lang":  null,
+        "origin":  "Application",
+        "adminConsentDescription":  "Allow access to the API",
+        "adminConsentDisplayName":  "my-api-access",
+        "id":  "91024224-abec-4e31-a5a4-51be21c305ad",
+        "isEnabled":  true,
+        "type":  "User",
+        "userConsentDescription":  "Allow access to my-api access_as_user",
+        "userConsentDisplayName":  "Allow access to my-api",
+        "value":  "access_as_user"
+    }
 ]
