@@ -6,11 +6,6 @@ Write-Host "created identifierUrl: $identifierUrl"
 Write-Host (az version)
 Write-Host "Azure Create App Registration"
 
-
-# $jsonObj = Get-Content "$(appregapi.json)" | Out-String | ConvertFrom-Json
-# $data = ($bodyJSON | ConvertFrom-Json).value
-# Write-Host "data: $bodyJSON"
-
 $myApiAppRegistration = az ad app create `
 	--display-name "mi-api" `
 	--available-to-other-tenants true `
@@ -21,7 +16,11 @@ $myApiAppRegistration = az ad app create `
 $appId = ($myApiAppRegistration | ConvertFrom-Json).appId
 Write-Host "created appId: $appId"
 
-az ad app update --id  $appId --optional-claims `@api_optional_claims.json
+az ad app update --id $appId --set accessTokenAcceptedVersion=2
+
+
+az ad app update --id $appId --optional-claims `@api_optional_claims.json
+az ad app update --id $appId --set oauth2Permissions=`@api_scopes.json
 
 # az ad app update --id $appId --set groupMembershipClaims="None"
 # az ad app update --id $appId --set signInAudience="AzureADandPersonalMicrosoftAccount"
