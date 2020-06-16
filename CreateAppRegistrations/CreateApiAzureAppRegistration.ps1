@@ -1,13 +1,15 @@
 $tenantId = "7ff95b15-dc21-4ba6-bc92-824856578fc1"
+$displayName = "mi-api"
+
 $identifier = New-Guid
 $identifierUrl = "api://" + $identifier 
 
 Write-Host "created identifierUrl: $identifierUrl"
-Write-Host (az version)
-Write-Host "Azure Create App Registration"
+# Write-Host (az version)
+Write-Host "Azure Create API App Registration"
 
 $myApiAppRegistration = az ad app create `
-	--display-name "mi-api" `
+	--display-name $displayName `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
 	--identifier-uris $identifierUrl `
@@ -16,7 +18,7 @@ $myApiAppRegistration = az ad app create `
 $data = ($myApiAppRegistration | ConvertFrom-Json)
 $appId = $data.appId
 
-Write-Host "created appId: $appId"
+Write-Host "created API $displayName with appId: $appId"
 
 az ad app update --id $appId --optional-claims `@api_optional_claims.json
 
@@ -65,5 +67,6 @@ $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
 
 ### Finished adding scopes
-az ad app show --id $appId
+# az ad app show --id $appId
 
+return $appId
