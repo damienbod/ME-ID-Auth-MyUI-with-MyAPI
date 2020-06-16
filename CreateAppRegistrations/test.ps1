@@ -48,6 +48,6 @@ $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew)
 Write-Host "- oauth2PermissionsNew --------"
 Write-Host "$oauth2PermissionsNew" 
 
-$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsnew.json
+$oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
 
