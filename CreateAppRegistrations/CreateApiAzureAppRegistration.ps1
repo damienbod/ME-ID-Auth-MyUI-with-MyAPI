@@ -64,6 +64,9 @@ $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew)
 $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
 
+# create a ServicePrincipal for the API
+az ad sp create --id $appId
+
 ### Finished adding scopes
 # az ad app show --id $appId
 
