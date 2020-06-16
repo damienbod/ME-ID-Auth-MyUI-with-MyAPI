@@ -20,21 +20,13 @@ Write-Host "created appId: $appId"
 
 az ad app update --id $appId --optional-claims `@api_optional_claims.json
 
-
-az ad app show --id $appId
-
-Write-Host "Update App Registration oauth2Permissions items"
-Write-Host "- appId -----------------------"
-Write-Host "$appId"
-
+###  Add scopes
 # 1. read oauth2Permissions
 $apiApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
 $oauth2Permissions = $apiApp.oauth2Permissions
 
 # 2. set to enabled to false
 $oauth2Permissions[0].isEnabled = 'false'
-# $oauth2Permissions[0] | add-member -Name "lang" -value '' -MemberType NoteProperty
-# $oauth2Permissions[0] | add-member -Name "origin" -value 'Application' -MemberType NoteProperty
 $oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions) 
 
 Write-Host "- oauth2Permissions -----------"
@@ -71,3 +63,7 @@ Write-Host "$oauth2PermissionsNew"
 
 $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
+
+### Finished adding scopes
+az ad app show --id $appId
+
