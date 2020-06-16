@@ -1,10 +1,33 @@
 $tenantId = "7ff95b15-dc21-4ba6-bc92-824856578fc1"
 $identifier = New-Guid
-
+$appId = "3c73514c-ee32-4535-a926-2493a99e4479"
 
 Write-Host "Update App Registration oauth2Permissions items"
+Write-Host "- appId -----------------------"
+Write-Host "$appId"
 
-$userAccessScope = '{
+# 1. read oauth2Permissions
+$apiApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
+$oauth2Permissions = $apiApp.oauth2Permissions
+
+# 2. set to enabled to false
+$oauth2Permissions[0].isEnabled = 'false'
+# $oauth2Permissions[0] | add-member -Name "lang" -value '' -MemberType NoteProperty
+# $oauth2Permissions[0] | add-member -Name "origin" -value 'Application' -MemberType NoteProperty
+$oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions) 
+
+Write-Host "- oauth2Permissions -----------"
+Write-Host "$oauth2Permissions" 
+
+# 3. disable
+#az ad app update --id $appId --set oauth2Permissions=$oauth2Permissions
+
+# 4. delete
+#az ad app update --id $appId --set oauth2Permissions='[]'
+
+# 5. add new scope add the new oauth2Permissions values
+
+$userAccessScope = '[{
 		"lang": null,
 		"origin": "Application",		
 		"adminConsentDescription": "Allow access to the API",
@@ -15,32 +38,18 @@ $userAccessScope = '{
 		"userConsentDescription": "Allow access to my-api access_as_user",
 		"userConsentDisplayName": "Allow access to my-api",
 		"value": "access_as_user"
-}'
+}]' | ConvertTo-Json | ConvertFrom-Json
 
-$appId = "f3333952-e0fb-44d9-a8c9-58b17eead48b"
-# 1. read oauth2Permissions
-$apiApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
-$oauth2Permissions = $apiApp.oauth2Permissions
-# 2. set to enabled to false
-$oauth2Permissions[0].isEnabled = 'false'
-# $oauth2Permissions[0] | add-member -Name "lang" -value '' -MemberType NoteProperty
-# $oauth2Permissions[0] | add-member -Name "origin" -value 'Application' -MemberType NoteProperty
+#$oauth2PermissionsNew = @()
+$oauth2PermissionsNew += (ConvertFrom-Json -InputObject $userAccessScope)
+$oauth2PermissionsNew[0].id = $identifier 
+$oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew) 
 
-# 3. add the new oauth2Permissions values
-$oauth2Permissions += (ConvertFrom-Json -InputObject ($userAccessScope | ConvertTo-Json | ConvertFrom-Json))
-$oauth2Permissions[1].id = $identifier
-$oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions)
+Write-Host "- oauth2PermissionsNew --------"
+Write-Host "$oauth2PermissionsNew" 
 
-$hh = ($oauth2Permissions | Out-String | ConvertFrom-Json)
+# az ad app update --id $appId --set oauth2Permissions=$oauth2PermissionsNew
 
-Write-Host "--------------------------------"
-Write-Host "$appId"
-Write-Host "--------------------------------"
-Write-Host "$oauth2Permissions" 
-Write-Host "--------------------------------"
-
-# 4. az ad app update --id $appId --set oauth2Permissions=@api_scopes.json
-az ad app update --id $appId --set oauth2Permissions='[]'
 
 
 # az ad app update --id $appId --set oauth2Permissions=`@api_scopes.json
