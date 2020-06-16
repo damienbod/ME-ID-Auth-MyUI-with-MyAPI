@@ -1,0 +1,99 @@
+{
+	"id": "99199e99-9c35-4909-8b56-4be1c68e9c10",
+	"acceptMappedClaims": null,
+	"accessTokenAcceptedVersion": 2,
+	"addIns": [],
+	"allowPublicClient": null,
+	"appId": "98328d53-55ec-4f14-8407-0ca5ff2f2d20",
+	"appRoles": [],
+	"oauth2AllowUrlPathMatching": false,
+	"createdDateTime": "2020-05-29T05:21:55Z",
+	"groupMembershipClaims": "None",
+	"identifierUris": [
+		"api://98328d53-55ec-4f14-8407-0ca5ff2f2d20"
+	],
+	"informationalUrls": {
+		"termsOfService": null,
+		"support": null,
+		"privacy": null,
+		"marketing": null
+	},
+	"keyCredentials": [],
+	"knownClientApplications": [],
+	"logoUrl": null,
+	"logoutUrl": null,
+	"name": "my-api",
+	"oauth2AllowIdTokenImplicitFlow": false,
+	"oauth2AllowImplicitFlow": false,
+	"oauth2Permissions": [
+		{
+			"adminConsentDescription": "Allow access to the API",
+			"adminConsentDisplayName": "my-api-access",
+			"id": "be9ced8d-bb7d-4d9c-a7f9-7b8a676decd6",
+			"isEnabled": true,
+			"lang": null,
+			"origin": "Application",
+			"type": "User",
+			"userConsentDescription": "Allow access to my-api access_as_user",
+			"userConsentDisplayName": "Allow access to my-api",
+			"value": "access_as_user"
+		}
+	],
+	"oauth2RequirePostResponse": false,
+	"optionalClaims": {
+		"idToken": [],
+		"accessToken": [
+			{
+				"name": "sid",
+				"source": null,
+				"essential": false,
+				"additionalProperties": []
+			},
+			{
+				"name": "email",
+				"source": null,
+				"essential": false,
+				"additionalProperties": []
+			}
+		],
+		"saml2Token": []
+	},
+	"orgRestrictions": [],
+	"parentalControlSettings": {
+		"countriesBlockedForMinors": [],
+		"legalAgeGroupRule": "Allow"
+	},
+	"passwordCredentials": [],
+	"preAuthorizedApplications": [],
+	"publisherDomain": "damienbodhotmail.onmicrosoft.com",
+	"replyUrlsWithType": [],
+	"requiredResourceAccess": [
+		{
+			"resourceAppId": "00000003-0000-0000-c000-000000000000",
+			"resourceAccess": [
+				{
+					"id": "64a6cdd6-aab1-4aaf-94b8-3cc8405e90d0",
+					"type": "Scope"
+				},
+				{
+					"id": "14dad69e-099b-42c9-810b-d002981feec1",
+					"type": "Scope"
+				},
+				{
+					"id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+					"type": "Scope"
+				}
+			]
+		}
+	],
+	"samlMetadataUrl": null,
+	"signInUrl": null,
+	"signInAudience": "AzureADandPersonalMicrosoftAccount",
+	"tags": [],
+	"tokenEncryptionKeyId": null,
+	"verifiedPublisher": {
+		"displayName": null,
+		"verifiedPublisherId": null,
+		"addedDateTime": null
+	}
+}
