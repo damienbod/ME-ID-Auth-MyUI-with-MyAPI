@@ -6,4 +6,4 @@ $appIdApi = &".\api_create_azure_app_registration.ps1" $tenantId | select -Last 
 Write-Host "Created Api App registraion: $appIdApi"
 
 $appIdServerRenderedUI = &".\server_rendered_create_azure_app_registration.ps1" $tenantId $appIdApi | select -Last 1
-Write-Host "Created Senver Rendered App registraion: $appIdServerRenderedUI"
+Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
