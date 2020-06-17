@@ -61,6 +61,7 @@ $myServerRenderedAppRegistration = az ad app create `
 	--display-name $displayName `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
+	--reply-urls $replyUrls `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
 $data = ($myServerRenderedAppRegistration | ConvertFrom-Json)
@@ -71,7 +72,7 @@ Write-Host " - Created ServerRendered $displayName with appId: $appId"
 ### Add optional claims to App Registration 
 ##################################
 
-az ad app update --id $appId --optional-claims `@api_optional_claims.json
+az ad app update --id $appId --optional-claims `@server_rendered_optional_claims.json
 Write-Host " - Optional claims added to App Registration: $appId"
 
 ##################################
