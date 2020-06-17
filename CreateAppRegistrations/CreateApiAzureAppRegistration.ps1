@@ -13,7 +13,6 @@ $userAccessScope = '{
 		"value": "access_as_user"
 }' | ConvertTo-Json | ConvertFrom-Json
 
-# Write-Host (az version)
 Write-Host "Begin API Azure App Registration"
 
 ##################################
@@ -31,14 +30,14 @@ $myApiAppRegistration = az ad app create `
 
 $data = ($myApiAppRegistration | ConvertFrom-Json)
 $appId = $data.appId
-Write-Host "Created API $displayName with appId: $appId"
+Write-Host " - Created API $displayName with appId: $appId"
 
 ##################################
 ### Add optional claims to App Registration 
 ##################################
 
 az ad app update --id $appId --optional-claims `@api_optional_claims.json
-Write-Host "Optional claims added to App Registration: $appId"
+Write-Host " - Optional claims added to App Registration: $appId"
 
 ##################################
 ###  Add scopes (oauth2Permissions)
@@ -66,6 +65,6 @@ $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew)
 # Write-Host "$oauth2PermissionsNew" 
 $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
-Write-Host "Add scopes (oauth2Permissions) updated for App Registration: $appId"
+Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 
 return $appId
