@@ -9,6 +9,7 @@ az ad app show --id 98328d53-55ec-4f14-8407-0ca5ff2f2d20
 ```
 
 ```
+.\create_app_registrations.ps1 "7ff95b15-dc21-4ba6-bc92-824856578fc1" "madcoolsecret"
 ```
 
 ```

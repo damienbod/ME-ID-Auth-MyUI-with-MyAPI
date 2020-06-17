@@ -1,5 +1,6 @@
 $tenantId = $args[0]
 $appIdApi = $args[1]
+$secretForPortal = $args[2]
 $replyUrls = "https://localhost:44344/signin-oidc"
 $logoutUrl = "https://localhost:44344/signout-callback-oidc"
 $displayName = "mi-server-rendered-portal"
@@ -62,7 +63,7 @@ $myServerRenderedAppRegistration = az ad app create `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
 	--reply-urls $replyUrls `
-	--password "bigc334omplica343tedfdfThins23" `
+	--password $secretForPortal `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
 $data = ($myServerRenderedAppRegistration | ConvertFrom-Json)
