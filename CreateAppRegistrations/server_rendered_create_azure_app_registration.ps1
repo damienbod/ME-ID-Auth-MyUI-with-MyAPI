@@ -97,6 +97,13 @@ az ad app update --id $appId --set oauth2Permissions='[]'
 Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 
 ##################################
+###  add logoutUrl
+##################################
+
+az ad app update --id $appId --set logoutUrl=$logoutUrl
+Write-Host " - Updated logoutUrl"
+
+##################################
 ###  Create a ServicePrincipal for the ServerRendered App Registration
 ##################################
 
