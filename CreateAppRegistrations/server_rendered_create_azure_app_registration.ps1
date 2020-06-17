@@ -1,5 +1,7 @@
 $tenantId = $args[0]
-$appIdapp = $args[1]
+$appIdApi = $args[1]
+$replyUrls = "https://localhost:44344/signin-oidc"
+$logoutUrl = "https://localhost:44344/signout-callback-oidc"
 $displayName = "mi-server-rendered-portal"
 $requiredResourceAccesses = '[
 	{
@@ -40,20 +42,21 @@ $requiredResourceAccesses = '[
 
 Write-Host "Begin ServerRendered Azure App Registration"
 
+$apiApp = az ad app show --id $appIdApi | Out-String | ConvertFrom-Json
+$oauth2Permission = $apiApp.oauth2Permissions[1]
+
 # add the API values to the data
-$requiredResourceAccesses[1].resourceAppId = $identifier 
-$requiredResourceAccesses[1].resourceAccess[0].id = $identifier 
+$requiredResourceAccesses[1].resourceAppId = $oauth2Permission.resourceAppId
+$requiredResourceAccesses[1].resourceAccess[0].id = $oauth2Permission.resourceAccess[0].id 
+
 $requiredResourceAccessesNew = ConvertTo-Json -InputObject @($requiredResourceAccesses) 
 Write-Host "$requiredResourceAccessesNew" 
 $requiredResourceAccessesNew | Out-File -FilePath .\server_rendered_required_resources.json
-Write-Host " - Updated required-resource-accesses  for new App Registration"
+Write-Host " - Updated required-resource-accesses for new App Registration"
 
 ##################################
 ### Create Azure App Registration
 ##################################
-
-#$identifier = New-Guid
-#$identifierUrl = "api://" + $identifier 
 
 $myApiAppRegistration = az ad app create `
 	--display-name $displayName `
