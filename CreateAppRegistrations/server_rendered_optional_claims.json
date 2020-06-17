@@ -1,9 +1,16 @@
 {
-    "accessToken": [
-        {
-            "name": "email",
-            "source": null,
-            "essential": false
-        }
-    ]
+	"idToken": [
+		{
+			"name": "email",
+			"source": null,
+			"essential": false
+		}
+	],
+	"accessToken": [
+		{
+			"name": "email",
+			"source": null,
+			"essential": false
+		}
+	]
 }
