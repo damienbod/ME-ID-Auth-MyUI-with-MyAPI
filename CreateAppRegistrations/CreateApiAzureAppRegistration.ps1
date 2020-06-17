@@ -67,4 +67,11 @@ $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
 Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 
+##################################
+###  Create a ServicePrincipal for the API App Registration
+##################################
+
+az ad sp create --id $appId
+Write-Host " - Created Service Principal for API App registration"
+
 return $appId
