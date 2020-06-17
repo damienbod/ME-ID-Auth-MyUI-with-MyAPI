@@ -48,7 +48,7 @@ $data = ConvertFrom-Json $requiredResourceAccesses
 $data[1].resourceAppId = $appIdApi
 $data[1].resourceAccess[0].id = $oauth2Permissions.id
 $requiredResourceAccessesNew =  $data | ConvertTo-Json -Depth 5
-Write-Host "$requiredResourceAccessesNew" 
+# Write-Host "$requiredResourceAccessesNew" 
  
 $requiredResourceAccessesNew | Out-File -FilePath .\server_rendered_required_resources.json
 Write-Host " - Updated required-resource-accesses for new App Registration"
@@ -74,6 +74,26 @@ Write-Host " - Created ServerRendered $displayName with appId: $appId"
 
 az ad app update --id $appId --optional-claims `@server_rendered_optional_claims.json
 Write-Host " - Optional claims added to App Registration: $appId"
+
+##################################
+###  Remove scopes (oauth2Permissions)
+##################################
+
+# 1. read oauth2Permissions
+$srApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
+$oauth2Permissions = $srApp.oauth2Permissions
+
+# 2. set to enabled to false from the defualt scope, because we want to remove this
+$oauth2Permissions[0].isEnabled = 'false'
+$oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions) 
+# Write-Host "$oauth2Permissions" 
+# disable oauth2Permission in Azure App Registration
+$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsold.json
+az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
+
+# 3. delete the default oauth2Permission
+az ad app update --id $appId --set oauth2Permissions='[]'
+Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 
 ##################################
 ###  Create a ServicePrincipal for the ServerRendered App Registration
