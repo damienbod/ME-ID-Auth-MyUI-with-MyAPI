@@ -3,54 +3,53 @@ $appIdApi = $args[1]
 $replyUrls = "https://localhost:44344/signin-oidc"
 $logoutUrl = "https://localhost:44344/signout-callback-oidc"
 $displayName = "mi-server-rendered-portal"
-$requiredResourceAccesses = '[
-	{
-		"resourceAppId": "00000003-0000-0000-c000-000000000000",
-		"resourceAccess": [
-			{
-				"id": "64a6cdd6-aab1-4aaf-94b8-3cc8405e90d0",
-				"type": "Scope"
-			},
-			{
-				"id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
-				"type": "Scope"
-			},
-			{
-				"id": "37f7f235-527c-4136-accd-4a02d197296e",
-				"type": "Scope"
-			},
-			{
-				"id": "14dad69e-099b-42c9-810b-d002981feec1",
-				"type": "Scope"
-			},
-			{
-				"id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
-				"type": "Scope"
-			}
-		]
-	},
-	{
-		"resourceAppId": "-- replace --",
-		"resourceAccess": [
-			{
-				"id": "-- replace --",
-				"type": "Scope"
-			}
-		]
-	}
-]' | ConvertTo-Json | ConvertFrom-Json
+$requiredResourceAccesses = '[{
+	"resourceAppId": "00000003-0000-0000-c000-000000000000",
+	"resourceAccess": [
+		{
+			"id": "64a6cdd6-aab1-4aaf-94b8-3cc8405e90d0",
+			"type": "Scope"
+		},
+		{
+			"id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+			"type": "Scope"
+		},
+		{
+			"id": "37f7f235-527c-4136-accd-4a02d197296e",
+			"type": "Scope"
+		},
+		{
+			"id": "14dad69e-099b-42c9-810b-d002981feec1",
+			"type": "Scope"
+		},
+		{
+			"id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+			"type": "Scope"
+		}
+	]
+},
+{
+	"resourceAppId": "-- replace --",
+	"resourceAccess": [
+		{
+			"id": "-- replace --",
+			"type": "Scope"
+		}
+	]
+}]' | ConvertTo-Json | ConvertFrom-Json
 
 Write-Host "Begin ServerRendered Azure App Registration"
 
 $apiApp = az ad app show --id $appIdApi | Out-String | ConvertFrom-Json
-$oauth2Permission = $apiApp.oauth2Permissions[1]
+$oauth2Permissions = $apiApp.oauth2Permissions[0]
 
+$data = ConvertFrom-Json $requiredResourceAccesses
 # add the API values to the data
-$requiredResourceAccesses[1].resourceAppId = $oauth2Permission.resourceAppId
-$requiredResourceAccesses[1].resourceAccess[0].id = $oauth2Permission.resourceAccess[0].id 
-
-$requiredResourceAccessesNew = ConvertTo-Json -InputObject @($requiredResourceAccesses) 
+$data[1].resourceAppId = $appIdApi
+$data[1].resourceAccess[0].id = $oauth2Permissions.id
+$requiredResourceAccessesNew =  $data | ConvertTo-Json -Depth 5
 Write-Host "$requiredResourceAccessesNew" 
+ 
 $requiredResourceAccessesNew | Out-File -FilePath .\server_rendered_required_resources.json
 Write-Host " - Updated required-resource-accesses for new App Registration"
 
@@ -58,13 +57,13 @@ Write-Host " - Updated required-resource-accesses for new App Registration"
 ### Create Azure App Registration
 ##################################
 
-$myApiAppRegistration = az ad app create `
+$myServerRenderedAppRegistration = az ad app create `
 	--display-name $displayName `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
-$data = ($myApiAppRegistration | ConvertFrom-Json)
+$data = ($myServerRenderedAppRegistration | ConvertFrom-Json)
 $appId = $data.appId
 Write-Host " - Created ServerRendered $displayName with appId: $appId"
 
