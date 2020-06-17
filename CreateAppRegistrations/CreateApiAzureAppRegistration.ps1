@@ -1,4 +1,4 @@
-$tenantId = "7ff95b15-dc21-4ba6-bc92-824856578fc1"
+$tenantId = $args[0]
 $displayName = "mi-api"
 $userAccessScope = '{
 		"lang": null,
@@ -66,12 +66,6 @@ $oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew)
 # Write-Host "$oauth2PermissionsNew" 
 $oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
 az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
-
-##################################
-###  Create a ServicePrincipal for the API
-##################################
-
-$sp = az ad sp create --id $appId
-Write-Host "Created Service Principal: $sp"
+Write-Host "Add scopes (oauth2Permissions) updated for App Registration: $appId"
 
 return $appId
