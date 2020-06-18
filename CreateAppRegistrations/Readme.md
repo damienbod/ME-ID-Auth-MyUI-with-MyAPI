@@ -34,3 +34,9 @@ https://anmock.blog/2020/01/10/azure-cli-create-an-azure-ad-application-for-an-a
 https://joonasw.net/view/defining-permissions-and-roles-in-aad
 
 https://docs.microsoft.com/en-us/cli/azure/ad/group?view=azure-cli-latest#az-ad-group-create
+
+https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/assign-user-or-group-access-portal
+
+https://docs.microsoft.com/en-us/graph/api/resources/application?view=graph-rest-1.0
+
+https://winsmarts.com/update-azure-ad-applications-signinaudience-using-microsoft-graph-79b5af3ec901
