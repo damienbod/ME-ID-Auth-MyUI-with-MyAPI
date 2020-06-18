@@ -74,15 +74,16 @@ Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 az ad sp create --id $appId | Out-String | ConvertFrom-Json
 Write-Host " - Created Service Principal for API App registration"
 
-az ad app update --id $appId --set groupMembershipClaims=None
-Write-Host " - Updated groupMembershipClaims to None"
+#az ad app update --id $appId --set groupMembershipClaims=None
+#Write-Host " - Updated groupMembershipClaims to None"
 
 ##################################
 ### Set signInAudience to AzureADandPersonalMicrosoftAccount
 ##################################
 
+# https://docs.microsoft.com/en-us/graph/api/application-update
 $idAppForGraphApi = $apiApp.objectId
-Write-Host "id = apiApp .objectId: $idAppForGraphApi"
+#Write-Host " - id = apiApp.objectId: $idAppForGraphApi"
 $tokenResponse = az account get-access-token --resource https://graph.microsoft.com
 $token = ($tokenResponse | ConvertFrom-Json).accessToken
 #Write-Host "$token"
@@ -92,7 +93,7 @@ $headers = @{
     "Authorization" = "Bearer $token"
 }
 
-Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount"}'
+Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
 
 
