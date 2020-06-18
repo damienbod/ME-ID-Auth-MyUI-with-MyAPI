@@ -127,7 +127,7 @@ $headers = @{
     "Authorization" = "Bearer $token"
 }
 
-Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount"}'
+Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
 
 return $appId

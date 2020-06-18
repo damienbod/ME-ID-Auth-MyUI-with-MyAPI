@@ -74,9 +74,6 @@ Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 az ad sp create --id $appId | Out-String | ConvertFrom-Json
 Write-Host " - Created Service Principal for API App registration"
 
-#az ad app update --id $appId --set groupMembershipClaims=None
-#Write-Host " - Updated groupMembershipClaims to None"
-
 ##################################
 ### Set signInAudience to AzureADandPersonalMicrosoftAccount
 ##################################

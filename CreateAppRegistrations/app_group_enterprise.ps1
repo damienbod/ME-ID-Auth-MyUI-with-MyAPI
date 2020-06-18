@@ -34,8 +34,6 @@ Write-Host " - Set user assigned true to APP registration"
 
 #az ad group list --display-name $groupName
 
-az role assignment create --assignee $groupObjectId --resource-group $apiAppId --app-roles "00000000-0000-0000-0000-000000000000"
+az role assignment create --assignee $groupObjectId --resource-group $apiId --app-roles "00000000-0000-0000-0000-000000000000"
 
-
-New-AzureADUserAppRoleAssignment -ObjectId "66329d69-9a75-4c46-8b4d-9982246e0041" -PrincipalId "66329d69-9a75-4c46-8b4d-9982246e0041" -ResourceId "8458e96d-403b-49ea-ba56-76bfd32c97c0" -Id "00000000-0000-0000-0000-000000000000"
 
