@@ -34,37 +34,8 @@ Write-Host " - Set user assigned true to APP registration"
 
 #az ad group list --display-name $groupName
 
-
-##################################
-### Assign users to Group
-##################################
-
-# az ad group member add -g "66329d69-9a75-4c46-8b4d-9982246e0041" --member-id "8458e96d-403b-49ea-ba56-76bfd32c97c0"
-
-##################################
-### Assign users to Group
-##################################
-
-$tokenResponse = az account get-access-token --resource https://graph.microsoft.com
-$token = ($tokenResponse | ConvertFrom-Json).accessToken
-Write-Host "$token"
-$uri = 'https://graph.microsoft.com/v1.0/applications/' + $apiId
-$headers = @{
-    "Authorization" = "Bearer $token"
-}
-Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount"}'
+az role assignment create --assignee $groupObjectId --resource-group $apiAppId --app-roles "00000000-0000-0000-0000-000000000000"
 
 
-
-#az role assignment create --assignee $groupObjectId --resource-group $apiAppId
-
-
-#$app_role_name = "none"
-#$appRole = $sp.AppRoles | Where-Object { $_.DisplayName -eq $app_role_name }
-
-#New-AzureADUserAppRoleAssignment -ObjectId "66329d69-9a75-4c46-8b4d-9982246e0041" -PrincipalId "66329d69-9a75-4c46-8b4d-9982246e0041" -ResourceId "8458e96d-403b-49ea-ba56-76bfd32c97c0" -Id $appRole.Id
-
-# Assign the user to the app role
-#az role assignment create --assignee "66329d69-9a75-4c46-8b4d-9982246e0041" --resource-group "8458e96d-403b-49ea-ba56-76bfd32c97c0"
-
+New-AzureADUserAppRoleAssignment -ObjectId "66329d69-9a75-4c46-8b4d-9982246e0041" -PrincipalId "66329d69-9a75-4c46-8b4d-9982246e0041" -ResourceId "8458e96d-403b-49ea-ba56-76bfd32c97c0" -Id "00000000-0000-0000-0000-000000000000"
 

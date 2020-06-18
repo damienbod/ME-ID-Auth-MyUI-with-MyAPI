@@ -115,10 +115,12 @@ Write-Host " - Created Service Principal for ServerRendered App registration"
 ### Set signInAudience to AzureADandPersonalMicrosoftAccount
 ##################################
 
+# https://docs.microsoft.com/en-us/graph/api/application-update
 $tokenResponse = az account get-access-token --resource https://graph.microsoft.com
 $token = ($tokenResponse | ConvertFrom-Json).accessToken
-Write-Host "$token"
-$uri = 'https://graph.microsoft.com/v1.0/applications/' + $$apiApp.id
+# Write-Host "$token"
+$uri = 'https://graph.microsoft.com/v1.0/applications/' + $appId.id
+Write-Host " - $uri"
 $headers = @{
     "Authorization" = "Bearer $token"
 }
