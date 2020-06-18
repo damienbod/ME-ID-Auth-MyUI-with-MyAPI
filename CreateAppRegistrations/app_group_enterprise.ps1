@@ -1,7 +1,9 @@
 $tenantId = "7ff95b15-dc21-4ba6-bc92-824856578fc1"
 $apiAppId = "8458e96d-403b-49ea-ba56-76bfd32c97c0"
+$apiId = "826b4b51-c495-4350-8971-a63262d11339"
 $groupName = "miapigroup"
 $identifier = New-Guid
+
 
 Write-Host "Updating App Registration: $apiAppId"
 
@@ -39,14 +41,17 @@ Write-Host " - Set user assigned true to APP registration"
 
 # az ad group member add -g "66329d69-9a75-4c46-8b4d-9982246e0041" --member-id "8458e96d-403b-49ea-ba56-76bfd32c97c0"
 
+##################################
+### Assign users to Group
+##################################
 
 $tokenResponse = az account get-access-token --resource https://graph.microsoft.com
 $token = ($tokenResponse | ConvertFrom-Json).accessToken
-$uri = 'https://graph.microsoft.com/v1.0/applications/' + $apiAppId
+Write-Host "$token"
+$uri = 'https://graph.microsoft.com/v1.0/applications/' + $apiId
 $headers = @{
     "Authorization" = "Bearer $token"
 }
-
 Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount"}'
 
 

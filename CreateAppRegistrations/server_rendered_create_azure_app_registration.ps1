@@ -111,4 +111,19 @@ Write-Host " - Updated logoutUrl"
 az ad sp create --id $appId
 Write-Host " - Created Service Principal for ServerRendered App registration"
 
+##################################
+### Set signInAudience to AzureADandPersonalMicrosoftAccount
+##################################
+
+$tokenResponse = az account get-access-token --resource https://graph.microsoft.com
+$token = ($tokenResponse | ConvertFrom-Json).accessToken
+Write-Host "$token"
+$uri = 'https://graph.microsoft.com/v1.0/applications/' + $$apiApp.id
+$headers = @{
+    "Authorization" = "Bearer $token"
+}
+Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount"}'
+Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
+
+
 return $appId
