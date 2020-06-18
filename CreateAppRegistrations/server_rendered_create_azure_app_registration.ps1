@@ -117,7 +117,7 @@ Write-Host " - Created Service Principal for ServerRendered App registration"
 
 # https://docs.microsoft.com/en-us/graph/api/application-update
 $idAppForGraphApi = $srApp.objectId
-Write-Host " - id = srApp.objectId: $idAppForGraphApi"
+#Write-Host " - id = srApp.objectId: $idAppForGraphApi"
 $tokenResponse = az account get-access-token --resource https://graph.microsoft.com
 $token = ($tokenResponse | ConvertFrom-Json).accessToken
 #Write-Host "$token"
