@@ -40,3 +40,5 @@ https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/assign-user-
 https://docs.microsoft.com/en-us/graph/api/resources/application?view=graph-rest-1.0
 
 https://winsmarts.com/update-azure-ad-applications-signinaudience-using-microsoft-graph-79b5af3ec901
+
+https://developer.microsoft.com/graph/graph-explorer
