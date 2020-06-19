@@ -89,7 +89,7 @@ $myServerRenderedAppRegistration = az ad app create `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
 	--reply-urls $replyUrls `
-	--password $secretForPortal `
+	--password $secretForWebApp `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
 $data = ($myServerRenderedAppRegistration | ConvertFrom-Json)

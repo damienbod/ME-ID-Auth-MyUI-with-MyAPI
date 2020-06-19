@@ -1,6 +1,6 @@
 Param( [string]$tenantId = "", [string]$secretForWebApp = "" )
 
-function testParams {
+function testParams() {
 
 	if (!$tenantId) 
 	{ 
@@ -10,9 +10,10 @@ function testParams {
 
 	if (!$secretForWebApp) 
 	{ 
-		Write-Host "secretForWebApp is null"
+		Write-Host "secretForWebApp is not defined, creating one"
 		$secretForWebApp = New-Guid
 	}
+	return $secretForWebApp
 }
 
 function testSubscription {
@@ -24,10 +25,10 @@ function testSubscription {
 		exit 1
 	}
 	$accountName = $account.name
-    Write-Host "$accountName can update"
+    Write-Host "tenant: $accountName can update"
 }
 
-testParams
+$secretForWebApp = testParams
 testSubscription
 
 Write-Host "tenantId $tenantId"
@@ -47,3 +48,4 @@ Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
 # Create Group and Update Azure AD Enterprise APP for the API App Registration 
 $appIdServerRenderedUI = &".\app_group_enterprise.ps1" $tenantId $appIdApi  | select -Last 1
 Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
+
