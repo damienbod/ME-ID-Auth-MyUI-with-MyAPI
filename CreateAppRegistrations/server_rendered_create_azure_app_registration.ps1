@@ -141,30 +141,5 @@ Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $myServe
 az ad sp create --id $myServerRenderedAppRegistrationDataAppId
 Write-Host " - Created Service Principal for ServerRendered App registration"
 
-##################################
-### Set signInAudience to AzureADandPersonalMicrosoftAccount
-##################################
-
-# https://docs.microsoft.com/en-us/graph/api/application-update
-$myServerRenderedAppRegistrationDataObjectId = $myServerRenderedAppRegistrationData.objectId
-Write-Host " - id = srApp.objectId: $myServerRenderedAppRegistrationDataObjectId"
-$tokenResponseSrUI = az account get-access-token --resource https://graph.microsoft.com
-$tokenSrUI = ($tokenResponseSrUI | ConvertFrom-Json).accessToken
-#Write-Host "$tokenSrUI"
-$uriSrUI = 'https://graph.microsoft.com/v1.0/applications/' + $myServerRenderedAppRegistrationDataObjectId
-Write-Host " - $uriSrUI"
-$headersSrUI = @{
-    "Authorization" = "Bearer $tokenSrUI"
-}
-
-Invoke-RestMethod `
-	-ContentType application/json `
-	-Uri $uriSrUI `
-	-Method Patch `
-	-Headers $headersSrUI `
-	-Body $bodySrUI
-	
-Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
-Write-Host " - Updated groupMembershipClaims to None"
 
 return $myServerRenderedAppRegistrationDataAppId
