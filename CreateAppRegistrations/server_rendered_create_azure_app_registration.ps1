@@ -70,11 +70,11 @@ Write-Host "Begin ServerRendered Azure App Registration"
 $apiApp = az ad app show --id $appIdApi | Out-String | ConvertFrom-Json
 $oauth2Permissions = $apiApp.oauth2Permissions[0]
 
-$data = ConvertFrom-Json $requiredResourceAccesses
-# add the API values to the data
-$data[1].resourceAppId = $appIdApi
-$data[1].resourceAccess[0].id = $oauth2Permissions.id
-$requiredResourceAccessesNew =  $data | ConvertTo-Json -Depth 5
+$requiredResourceAccessesData = ConvertFrom-Json $requiredResourceAccesses
+# add the API values to the requiredResourceAccessesData
+$requiredResourceAccessesData[1].resourceAppId = $appIdApi
+$requiredResourceAccessesData[1].resourceAccess[0].id = $oauth2Permissions.id
+$requiredResourceAccessesNew =  $requiredResourceAccessesData | ConvertTo-Json -Depth 5
 # Write-Host "$requiredResourceAccessesNew" 
  
 $requiredResourceAccessesNew | Out-File -FilePath .\server_rendered_required_resources.json
@@ -92,8 +92,8 @@ $myServerRenderedAppRegistration = az ad app create `
 	--password $secretForWebApp `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
-$data = ($myServerRenderedAppRegistration | ConvertFrom-Json)
-$appId = $data.appId
+$myServerRenderedAppRegistrationData = ($myServerRenderedAppRegistration | ConvertFrom-Json)
+$appId = $myServerRenderedAppRegistrationData.appId
 Write-Host " - Created ServerRendered $displayName with appId: $appId"
 
 ##################################
@@ -129,8 +129,6 @@ az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
 # 3. delete the default oauth2Permission
 az ad app update --id $appId --set oauth2Permissions='[]'
 Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
-
-
 
 ##################################
 ###  Create a ServicePrincipal for the ServerRendered App Registration
