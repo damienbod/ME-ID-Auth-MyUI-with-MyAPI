@@ -97,6 +97,13 @@ $appId = $data.appId
 Write-Host " - Created ServerRendered $displayName with appId: $appId"
 
 ##################################
+###  add logoutUrl
+##################################
+
+az ad app update --id $appId --set logoutUrl=$logoutUrl
+Write-Host " - Updated logoutUrl"
+
+##################################
 ### Add optional claims to App Registration 
 ##################################
 
@@ -123,12 +130,7 @@ az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
 az ad app update --id $appId --set oauth2Permissions='[]'
 Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
 
-##################################
-###  add logoutUrl
-##################################
 
-az ad app update --id $appId --set logoutUrl=$logoutUrl
-Write-Host " - Updated logoutUrl"
 
 ##################################
 ###  Create a ServicePrincipal for the ServerRendered App Registration
@@ -143,7 +145,7 @@ Write-Host " - Created Service Principal for ServerRendered App registration"
 
 # https://docs.microsoft.com/en-us/graph/api/application-update
 $idAppForGraphApi = $srApp.objectId
-#Write-Host " - id = srApp.objectId: $idAppForGraphApi"
+Write-Host " - id = srApp.objectId: $idAppForGraphApi"
 $tokenResponse = az account get-access-token --resource https://graph.microsoft.com
 $token = ($tokenResponse | ConvertFrom-Json).accessToken
 #Write-Host "$token"
@@ -153,7 +155,14 @@ $headers = @{
     "Authorization" = "Bearer $token"
 }
 
-Invoke-RestMethod -ContentType application/json -Uri $uri -Method Patch -Headers $headers -Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
+Invoke-RestMethod  `
+	-ContentType application/json `
+	-Uri $uri  `
+	-Method Patch `
+	-Headers $headers `
+	-Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
+	
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
+Write-Host " - Updated groupMembershipClaims to None"
 
 return $appId

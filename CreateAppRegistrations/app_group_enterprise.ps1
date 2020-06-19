@@ -18,7 +18,7 @@ function testParams {
 
 testParams
 
-Write-Host "Updating App Registration: $apiAppId"
+Write-Host "Creating group and updating App Registration: $apiAppId"
 
 ##################################
 ### Create group
@@ -29,7 +29,7 @@ $group = az ad group create `
 	--display-name $groupName `
 	--mail-nickname $groupName `
 
-Write-Host "$group" 
+#Write-Host "$group" 
 $groupObjectId = ($group | ConvertFrom-Json).objectId
 Write-Host " - Created new group objectId: $groupObjectId"
 	
@@ -50,4 +50,4 @@ Write-Host " - Set user assigned true to APP registration"
 #az ad group list --display-name $groupName
 #az role assignment create --assignee $groupObjectId --resourceId $apiAppId --role "00000000-0000-0000-0000-000000000000"
 
-
+return $groupName
