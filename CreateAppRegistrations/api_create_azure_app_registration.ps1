@@ -1,15 +1,27 @@
-$tenantId = $args[0]
+Param( [string]$tenantId = "" )
+
+function testParams {
+
+	if (!$tenantId) 
+	{ 
+		Write-Host "tenantId is null"
+		exit 1
+	}
+}
+
+testParams
+
 $displayName = "mi-api"
 $userAccessScope = '{
 		"lang": null,
 		"origin": "Application",		
 		"adminConsentDescription": "Allow access to the API",
-		"adminConsentDisplayName": "my-api-access",
+		"adminConsentDisplayName": "mi-api-access",
 		"id": "--- replaced in scripts ---",
 		"isEnabled": true,
 		"type": "User",
-		"userConsentDescription": "Allow access to my-api access_as_user",
-		"userConsentDisplayName": "Allow access to my-api",
+		"userConsentDescription": "Allow access to mi-api access_as_user",
+		"userConsentDisplayName": "Allow access to mi-api",
 		"value": "access_as_user"
 }' | ConvertTo-Json | ConvertFrom-Json
 

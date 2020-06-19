@@ -1,6 +1,28 @@
-$tenantId = $args[0]
-$appIdApi = $args[1]
-$secretForPortal = $args[2]
+Param( [string]$tenantId = "", [string]$appIdApi = "", [string]$secretForWebApp = "" )
+
+function testParams {
+
+	if (!$tenantId) 
+	{ 
+		Write-Host "tenantId is null"
+		exit 1
+	}
+
+	if (!$appIdApi) 
+	{ 
+		Write-Host "appIdApi is null"
+		exit 1
+	}
+	
+	if (!$secretForWebApp) 
+	{ 
+		Write-Host "secretForWebApp is null"
+		exit 1
+	}
+}
+
+testParams
+
 $replyUrls = "https://localhost:44344/signin-oidc"
 $logoutUrl = "https://localhost:44344/signout-callback-oidc"
 $displayName = "mi-server-rendered-portal"

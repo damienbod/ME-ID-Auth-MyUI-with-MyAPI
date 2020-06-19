@@ -36,8 +36,10 @@ Write-Host "-----------"
 Write-Host (az version)
 Write-Host "-----------"
 
+# Create API App Registration
 $appIdApi = &".\api_create_azure_app_registration.ps1" $tenantId | select -Last 1
 Write-Host "Created Api App registraion: $appIdApi"
 
+# Create Server Rendered App Registration
 $appIdServerRenderedUI = &".\server_rendered_create_azure_app_registration.ps1" $tenantId $appIdApi $secretForWebApp | select -Last 1
 Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
