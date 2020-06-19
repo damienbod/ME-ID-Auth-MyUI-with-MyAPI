@@ -24,7 +24,7 @@ Write-Host "Creating group and updating App Registration: $apiAppId"
 ### Create group
 ##################################
 
-Write-Host "Create new group"
+Write-Host " - Create new group"
 $group = az ad group create `
 	--display-name $groupName `
 	--mail-nickname $groupName `
