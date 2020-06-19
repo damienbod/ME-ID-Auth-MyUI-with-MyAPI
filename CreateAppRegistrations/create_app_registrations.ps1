@@ -43,3 +43,7 @@ Write-Host "Created Api App registraion: $appIdApi"
 # Create Server Rendered App Registration
 $appIdServerRenderedUI = &".\server_rendered_create_azure_app_registration.ps1" $tenantId $appIdApi $secretForWebApp | select -Last 1
 Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
+
+# Create Group and Update Azure AD Enterprise APP for the API App Registration 
+$appIdServerRenderedUI = &".\app_group_enterprise.ps1" $tenantId $appIdApi  | select -Last 1
+Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"

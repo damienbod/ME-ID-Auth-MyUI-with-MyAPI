@@ -1,16 +1,4 @@
 Param( [string]$tenantId = "" )
-
-function testParams {
-
-	if (!$tenantId) 
-	{ 
-		Write-Host "tenantId is null"
-		exit 1
-	}
-}
-
-testParams
-
 $displayName = "mi-api"
 $userAccessScope = '{
 		"lang": null,
@@ -24,6 +12,21 @@ $userAccessScope = '{
 		"userConsentDisplayName": "Allow access to mi-api",
 		"value": "access_as_user"
 }' | ConvertTo-Json | ConvertFrom-Json
+
+##################################
+### testParams
+##################################
+
+function testParams {
+
+	if (!$tenantId) 
+	{ 
+		Write-Host "tenantId is null"
+		exit 1
+	}
+}
+
+testParams
 
 Write-Host "Begin API Azure App Registration"
 
