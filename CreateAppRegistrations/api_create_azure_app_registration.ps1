@@ -1,6 +1,6 @@
 Param( [string]$tenantId = "" )
-$displayName = "mi-api"
-$userAccessScope = '{
+$displayNameApi = "mi-api"
+$userAccessScopeApi = '{
 		"lang": null,
 		"origin": "Application",		
 		"adminConsentDescription": "Allow access to the API",
@@ -34,59 +34,58 @@ Write-Host "Begin API Azure App Registration"
 ### Create Azure App Registration
 ##################################
 
-$identifier = New-Guid
-$identifierUrl = "api://" + $identifier 
+$identifierApi = New-Guid
+$identifierUrlApi = "api://" + $identifierApi
 $myApiAppRegistration = az ad app create `
-	--display-name $displayName `
+	--display-name $displayNameApi `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
-	--identifier-uris $identifierUrl `
+	--identifier-uris $identifierUrlApi `
 	--required-resource-accesses `@api_required_resources.json 
 
-$data = ($myApiAppRegistration | ConvertFrom-Json)
-$appId = $data.appId
-Write-Host " - Created API $displayName with appId: $appId"
+$myApiAppRegistrationResult = ($myApiAppRegistration | ConvertFrom-Json)
+$myApiAppRegistrationResultAppId = $myApiAppRegistrationResult.appId
+Write-Host " - Created API $displayNameApi with myApiAppRegistrationResultAppId: $myApiAppRegistrationResultAppId"
 
 ##################################
 ### Add optional claims to App Registration 
 ##################################
 
-az ad app update --id $appId --optional-claims `@api_optional_claims.json
-Write-Host " - Optional claims added to App Registration: $appId"
+az ad app update --id $myApiAppRegistrationResultAppId --optional-claims `@api_optional_claims.json
+Write-Host " - Optional claims added to App Registration: $myApiAppRegistrationResultAppId"
 
 ##################################
 ###  Add scopes (oauth2Permissions)
 ##################################
 
 # 1. read oauth2Permissions
-$apiApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
-$oauth2Permissions = $apiApp.oauth2Permissions
+$oauth2PermissionsApi = $myApiAppRegistrationResult.oauth2Permissions
 
 # 2. set to enabled to false from the defualt scope, because we want to remove this
-$oauth2Permissions[0].isEnabled = 'false'
-$oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions) 
-# Write-Host "$oauth2Permissions" 
+$oauth2PermissionsApi[0].isEnabled = 'false'
+$oauth2PermissionsApi = ConvertTo-Json -InputObject @($oauth2PermissionsApi) 
+# Write-Host "$oauth2PermissionsApi" 
 # disable oauth2Permission in Azure App Registration
-$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsold.json
-az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
+$oauth2PermissionsApi | Out-File -FilePath .\oauth2Permissionsold.json
+az ad app update --id $myApiAppRegistrationResultAppId --set oauth2Permissions=`@oauth2Permissionsold.json
 
 # 3. delete the default oauth2Permission
-az ad app update --id $appId --set oauth2Permissions='[]'
+az ad app update --id $myApiAppRegistrationResultAppId --set oauth2Permissions='[]'
 
 # 4. add the new scope required add the new oauth2Permissions values
-$oauth2PermissionsNew += (ConvertFrom-Json -InputObject $userAccessScope)
-$oauth2PermissionsNew[0].id = $identifier 
-$oauth2PermissionsNew = ConvertTo-Json -InputObject @($oauth2PermissionsNew) 
-# Write-Host "$oauth2PermissionsNew" 
-$oauth2PermissionsNew | Out-File -FilePath .\oauth2Permissionsnew.json
-az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsnew.json
-Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
+$oauth2PermissionsApiNew += (ConvertFrom-Json -InputObject $userAccessScopeApi)
+$oauth2PermissionsApiNew[0].id = $identifierApi
+$oauth2PermissionsApiNew = ConvertTo-Json -InputObject @($oauth2PermissionsApiNew) 
+# Write-Host "$oauth2PermissionsApiNew" 
+$oauth2PermissionsApiNew | Out-File -FilePath .\oauth2Permissionsnew.json
+az ad app update --id $myApiAppRegistrationResultAppId --set oauth2Permissions=`@oauth2Permissionsnew.json
+Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $myApiAppRegistrationResultAppId"
 
 ##################################
 ###  Create a ServicePrincipal for the API App Registration
 ##################################
 
-az ad sp create --id $appId | Out-String | ConvertFrom-Json
+az ad sp create --id $myApiAppRegistrationResultAppId | Out-String | ConvertFrom-Json
 Write-Host " - Created Service Principal for API App registration"
 
 ##################################
@@ -94,25 +93,25 @@ Write-Host " - Created Service Principal for API App registration"
 ##################################
 
 # https://docs.microsoft.com/en-us/graph/api/application-update
-$idAppForGraphApi = $apiApp.objectId
+$idAppForGraphApi = $myApiAppRegistrationResult.objectId
 #Write-Host " - id = apiApp.objectId: $idAppForGraphApi"
-$tokenResponse = az account get-access-token --resource https://graph.microsoft.com
-$token = ($tokenResponse | ConvertFrom-Json).accessToken
+$tokenResponseApi = az account get-access-token --resource https://graph.microsoft.com
+$tokenApi = ($tokenResponseApi | ConvertFrom-Json).accessToken
 #Write-Host "$token"
-$uri = 'https://graph.microsoft.com/v1.0/applications/' + $idAppForGraphApi
+$uriApi = 'https://graph.microsoft.com/v1.0/applications/' + $idAppForGraphApi
 Write-Host " - $uri"
-$headers = @{
-    "Authorization" = "Bearer $token"
+$headersApi = @{
+    "Authorization" = "Bearer $tokenApi"
 }
 
 Invoke-RestMethod  `
 	-ContentType application/json `
-	-Uri $uri  `
+	-Uri $uriApi `
 	-Method Patch `
-	-Headers $headers `
+	-Headers $headersApi `
 	-Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
 
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
 Write-Host " - Updated groupMembershipClaims to None"
 
-return $appId
+return $myApiAppRegistrationResultAppId
