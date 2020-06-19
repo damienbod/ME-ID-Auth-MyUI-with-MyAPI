@@ -38,15 +38,15 @@ Write-Host (az version)
 Write-Host "-----------"
 
 # Create API App Registration
-$appIdApi = &".\api_create_azure_app_registration.ps1" $tenantId | select -Last 1
-Write-Host "Created Api App registraion: $appIdApi"
+$createdAppRegAppIdApi = &".\api_create_azure_app_registration.ps1" $tenantId | select -Last 1
+Write-Host "Created Api App registraion: $createdAppRegAppIdApi"
 
 # Create Server Rendered App Registration
-$appIdServerRenderedUI = &".\server_rendered_create_azure_app_registration.ps1" $tenantId $appIdApi $secretForWebApp | select -Last 1
-Write-Host "Created Server Rendered App registraion: $appIdServerRenderedUI"
+$createdAppRegAppIdServerRenderedUI = &".\server_rendered_create_azure_app_registration.ps1" $tenantId $createdAppRegAppIdApi $secretForWebApp | select -Last 1
+Write-Host "Created Server Rendered App registraion: $createdAppRegAppIdServerRenderedUI"
 
 # Create Group and Update Azure AD Enterprise APP for the API App Registration 
-$groupName = &".\app_group_enterprise.ps1" $tenantId $appIdApi  | select -Last 1
+$groupName = &".\app_group_enterprise.ps1" $tenantId $createdAppRegAppIdApi  | select -Last 1
 Write-Host "Created Group and updated Azure AD Enterprise APP for the API App Registration, groupName: $groupName"
 
 Write-Host "Add the $groupName group to the App Registration and add users"
