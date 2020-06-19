@@ -1,5 +1,9 @@
 Param( [string]$tenantId = "" )
 $displayNameApi = "mi-api"
+$bodyApi = '{
+	"signInAudience" : "AzureADandPersonalMicrosoftAccount", 
+	"groupMembershipClaims": "None"
+}' | ConvertTo-Json | ConvertFrom-Json
 $userAccessScopeApi = '{
 		"lang": null,
 		"origin": "Application",		
@@ -99,7 +103,7 @@ $tokenResponseApi = az account get-access-token --resource https://graph.microso
 $tokenApi = ($tokenResponseApi | ConvertFrom-Json).accessToken
 #Write-Host "$token"
 $uriApi = 'https://graph.microsoft.com/v1.0/applications/' + $idAppForGraphApi
-Write-Host " - $uri"
+Write-Host " - $uriApi"
 $headersApi = @{
     "Authorization" = "Bearer $tokenApi"
 }
@@ -109,7 +113,7 @@ Invoke-RestMethod  `
 	-Uri $uriApi `
 	-Method Patch `
 	-Headers $headersApi `
-	-Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
+	-Body $bodyApi
 
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
 Write-Host " - Updated groupMembershipClaims to None"
