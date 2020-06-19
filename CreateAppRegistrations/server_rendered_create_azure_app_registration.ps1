@@ -157,7 +157,7 @@ $headersSrUI = @{
     "Authorization" = "Bearer $tokenSrUI"
 }
 
-Invoke-RestMethod  `
+Invoke-RestMethod `
 	-ContentType application/json `
 	-Uri $uriSrUI `
 	-Method Patch `
