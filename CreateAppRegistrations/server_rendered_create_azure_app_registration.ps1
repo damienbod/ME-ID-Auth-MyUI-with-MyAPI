@@ -1,9 +1,14 @@
-Param( [string]$tenantId = "", [string]$appIdApi = "", [string]$secretForWebApp = "" )
+Param( [string]$tenantId = "", [string]$inputAppIdApi = "", [string]$secretForWebApp = "" )
 
-$replyUrls = "https://localhost:44344/signin-oidc"
+$replyUrlsSrUI = "https://localhost:44344/signin-oidc"
 $logoutUrl = "https://localhost:44344/signout-callback-oidc"
-$displayName = "mi-server-rendered-portal"
-$requiredResourceAccesses = '[{
+$displayNameSrUI = "mi-server-rendered-portal"
+$bodySrUI = '{
+	"signInAudience" : "AzureADandPersonalMicrosoftAccount", 
+	"groupMembershipClaims": "None"
+}' | ConvertTo-Json | ConvertFrom-Json
+
+$requiredResourceAccessesSrUI = '[{
 	"resourceAppId": "00000003-0000-0000-c000-000000000000",
 	"resourceAccess": [
 		{
@@ -50,9 +55,9 @@ function testParams {
 		exit 1
 	}
 
-	if (!$appIdApi) 
+	if (!$inputAppIdApi) 
 	{ 
-		Write-Host "appIdApi is null"
+		Write-Host "inputAppIdApi is null"
 		exit 1
 	}
 	
@@ -67,17 +72,17 @@ testParams
 
 Write-Host "Begin ServerRendered Azure App Registration"
 
-$apiApp = az ad app show --id $appIdApi | Out-String | ConvertFrom-Json
-$oauth2Permissions = $apiApp.oauth2Permissions[0]
+$appDataFromInputAppIdApi = az ad app show --id $inputAppIdApi | Out-String | ConvertFrom-Json
+$appDataFromInputAppIdApiOauth2Permissions = $appDataFromInputAppIdApi.oauth2Permissions[0]
 
-$requiredResourceAccessesData = ConvertFrom-Json $requiredResourceAccesses
-# add the API values to the requiredResourceAccessesData
-$requiredResourceAccessesData[1].resourceAppId = $appIdApi
-$requiredResourceAccessesData[1].resourceAccess[0].id = $oauth2Permissions.id
-$requiredResourceAccessesNew =  $requiredResourceAccessesData | ConvertTo-Json -Depth 5
+$requiredResourceAccessesSrUIData = ConvertFrom-Json $requiredResourceAccessesSrUI
+# add the API values to the requiredResourceAccessesSrUIData
+$requiredResourceAccessesSrUIData[1].resourceAppId = $inputAppIdApi
+$requiredResourceAccessesSrUIData[1].resourceAccess[0].id = $appDataFromInputAppIdApiOauth2Permissions.id
+$requiredResourceAccessesSrUINew =  $requiredResourceAccessesSrUIData | ConvertTo-Json -Depth 5
 # Write-Host "$requiredResourceAccessesNew" 
  
-$requiredResourceAccessesNew | Out-File -FilePath .\server_rendered_required_resources.json
+$requiredResourceAccessesSrUINew | Out-File -FilePath .\server_rendered_required_resources.json
 Write-Host " - Updated required-resource-accesses for new App Registration"
 
 ##################################
@@ -85,56 +90,55 @@ Write-Host " - Updated required-resource-accesses for new App Registration"
 ##################################
 
 $myServerRenderedAppRegistration = az ad app create `
-	--display-name $displayName `
+	--display-name $displayNameSrUI `
 	--available-to-other-tenants true `
 	--oauth2-allow-implicit-flow  false `
-	--reply-urls $replyUrls `
+	--reply-urls $replyUrlsSrUI `
 	--password $secretForWebApp `
 	--required-resource-accesses `@server_rendered_required_resources.json
 
 $myServerRenderedAppRegistrationData = ($myServerRenderedAppRegistration | ConvertFrom-Json)
-$appId = $myServerRenderedAppRegistrationData.appId
-Write-Host " - Created ServerRendered $displayName with appId: $appId"
+$myServerRenderedAppRegistrationDataAppId = $myServerRenderedAppRegistrationData.appId
+Write-Host " - Created ServerRendered $displayNameSrUI with appId: $myServerRenderedAppRegistrationDataAppId"
 
 ##################################
 ###  add logoutUrl
 ##################################
 
-az ad app update --id $appId --set logoutUrl=$logoutUrl
+az ad app update --id $myServerRenderedAppRegistrationDataAppId --set logoutUrl=$logoutUrl
 Write-Host " - Updated logoutUrl"
 
 ##################################
 ### Add optional claims to App Registration 
 ##################################
 
-az ad app update --id $appId --optional-claims `@server_rendered_optional_claims.json
-Write-Host " - Optional claims added to App Registration: $appId"
+az ad app update --id $myServerRenderedAppRegistrationDataAppId --optional-claims `@server_rendered_optional_claims.json
+Write-Host " - Optional claims added to App Registration: $myServerRenderedAppRegistrationDataAppId"
 
 ##################################
 ###  Remove scopes (oauth2Permissions)
 ##################################
 
 # 1. read oauth2Permissions
-$srApp = az ad app show --id $appId | Out-String | ConvertFrom-Json
-$oauth2Permissions = $srApp.oauth2Permissions
+$oauth2PermissionsSrUI = $myServerRenderedAppRegistrationData.oauth2Permissions
 
 # 2. set to enabled to false from the defualt scope, because we want to remove this
-$oauth2Permissions[0].isEnabled = 'false'
-$oauth2Permissions = ConvertTo-Json -InputObject @($oauth2Permissions) 
-# Write-Host "$oauth2Permissions" 
+$oauth2PermissionsSrUI[0].isEnabled = 'false'
+$oauth2PermissionsSrUI = ConvertTo-Json -InputObject @($oauth2PermissionsSrUI) 
+# Write-Host "$oauth2PermissionsSrUI" 
 # disable oauth2Permission in Azure App Registration
-$oauth2Permissions | Out-File -FilePath .\oauth2Permissionsold.json
-az ad app update --id $appId --set oauth2Permissions=`@oauth2Permissionsold.json
+$oauth2PermissionsSrUI | Out-File -FilePath .\oauth2Permissionsold.json
+az ad app update --id $myServerRenderedAppRegistrationDataAppId --set oauth2Permissions=`@oauth2Permissionsold.json
 
 # 3. delete the default oauth2Permission
-az ad app update --id $appId --set oauth2Permissions='[]'
-Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $appId"
+az ad app update --id $myServerRenderedAppRegistrationDataAppId --set oauth2Permissions='[]'
+Write-Host " - Updated scopes (oauth2Permissions) for App Registration: $myServerRenderedAppRegistrationDataAppId"
 
 ##################################
 ###  Create a ServicePrincipal for the ServerRendered App Registration
 ##################################
 
-az ad sp create --id $appId
+az ad sp create --id $myServerRenderedAppRegistrationDataAppId
 Write-Host " - Created Service Principal for ServerRendered App registration"
 
 ##################################
@@ -142,25 +146,25 @@ Write-Host " - Created Service Principal for ServerRendered App registration"
 ##################################
 
 # https://docs.microsoft.com/en-us/graph/api/application-update
-$idAppForGraphApi = $srApp.objectId
-Write-Host " - id = srApp.objectId: $idAppForGraphApi"
-$tokenResponse = az account get-access-token --resource https://graph.microsoft.com
-$token = ($tokenResponse | ConvertFrom-Json).accessToken
-#Write-Host "$token"
-$uri = 'https://graph.microsoft.com/v1.0/applications/' + $idAppForGraphApi
-Write-Host " - $uri"
-$headers = @{
-    "Authorization" = "Bearer $token"
+$myServerRenderedAppRegistrationDataObjectId = $myServerRenderedAppRegistrationData.objectId
+Write-Host " - id = srApp.objectId: $myServerRenderedAppRegistrationDataObjectId"
+$tokenResponseSrUI = az account get-access-token --resource https://graph.microsoft.com
+$tokenSrUI = ($tokenResponseSrUI | ConvertFrom-Json).accessToken
+#Write-Host "$tokenSrUI"
+$uriSrUI = 'https://graph.microsoft.com/v1.0/applications/' + $myServerRenderedAppRegistrationDataObjectId
+Write-Host " - $uriSrUI"
+$headersSrUI = @{
+    "Authorization" = "Bearer $tokenSrUI"
 }
 
 Invoke-RestMethod  `
 	-ContentType application/json `
-	-Uri $uri  `
+	-Uri $uriSrUI `
 	-Method Patch `
-	-Headers $headers `
-	-Body '{"signInAudience" : "AzureADandPersonalMicrosoftAccount", "groupMembershipClaims": "None"}'
+	-Headers $headersSrUI `
+	-Body $bodySrUI
 	
 Write-Host " - Updated signInAudience to AzureADandPersonalMicrosoftAccount"
 Write-Host " - Updated groupMembershipClaims to None"
 
-return $appId
+return $myServerRenderedAppRegistrationDataAppId
