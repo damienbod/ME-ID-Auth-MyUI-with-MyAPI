@@ -14,6 +14,10 @@ https://damienbod.com/2020/06/08/angular-spa-with-an-asp-net-core-api-using-azur
 
 https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api-using-azure-ad-groups/
 
+## Using Azure CLI to create Azure App Registrations
+
+https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registrations/
+
 # Links
 
 https://github.com/AzureAD/microsoft-identity-web
