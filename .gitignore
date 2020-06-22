@@ -6,3 +6,6 @@
 /MyServerRenderedPortal/Properties/serviceDependencies.local.json.user
 /MySpaAngularUI/node_modules
 /MySpaAngularUI/dist/
+/CreateAppRegistrations/oauth2Permissionsnew.json
+/CreateAppRegistrations/oauth2Permissionsold.json
+/CreateAppRegistrations/server_rendered_required_resources.json

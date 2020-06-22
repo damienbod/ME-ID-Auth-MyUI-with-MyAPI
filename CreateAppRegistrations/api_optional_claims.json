@@ -1,0 +1,9 @@
+{
+    "accessToken": [
+        {
+            "name": "email",
+            "source": null,
+            "essential": false
+        }
+    ]
+}
