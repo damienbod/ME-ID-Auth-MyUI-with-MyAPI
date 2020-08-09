@@ -48,7 +48,7 @@ namespace MyApi
             // JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             // Adds Microsoft Identity platform (AAD v2.0) support to protect this Api
-            services.AddProtectedWebApi(Configuration);
+            services.AddMicrosoftWebApiAuthentication(Configuration);
 
             services.AddControllers(options =>
             {

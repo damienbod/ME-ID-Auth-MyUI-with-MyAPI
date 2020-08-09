@@ -28,9 +28,10 @@ namespace MyServerRenderedPortal
 
             services.AddOptions();
 
-            services.AddSignIn(Configuration);
-            services.AddWebAppCallsProtectedWebApi(Configuration, new string[] { Configuration["CallApi:ScopeForAccessToken"] })
-                    .AddInMemoryTokenCaches();
+            services.AddMicrosoftWebAppAuthentication(Configuration)
+                .AddMicrosoftWebAppCallsWebApi(Configuration,
+                       new string[] { Configuration["CallApi:ScopeForAccessToken"] })
+                .AddInMemoryTokenCaches();
 
             services.AddRazorPages().AddMvcOptions(options =>
             {
