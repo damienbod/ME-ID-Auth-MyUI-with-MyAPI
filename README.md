@@ -18,6 +18,10 @@ https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api
 
 https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registrations/
 
+# History
+
+2020-08-09 Updated Nuget packages, Updated Microsoft.Identity.Web to 0.2.2-preview
+
 # Links
 
 https://github.com/AzureAD/microsoft-identity-web
