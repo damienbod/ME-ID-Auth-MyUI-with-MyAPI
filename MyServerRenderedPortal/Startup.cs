@@ -28,9 +28,10 @@ namespace MyServerRenderedPortal
 
             services.AddOptions();
 
-            services.AddMicrosoftWebAppAuthentication(Configuration)
-                .AddMicrosoftWebAppCallsWebApi(Configuration,
-                       new string[] { Configuration["CallApi:ScopeForAccessToken"] })
+            string[] initialScopes = Configuration.GetValue<string>("CallApi:ScopeForAccessToken")?.Split(' ');
+
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
                 .AddInMemoryTokenCaches();
 
             services.AddRazorPages().AddMvcOptions(options =>
