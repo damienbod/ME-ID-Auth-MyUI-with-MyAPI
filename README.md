@@ -20,9 +20,7 @@ https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registratio
 
 # History
 
-2020-09-30 Updated Microsoft.Identity.Web to 1.0.0
-
-2020-08-11 Updated Microsoft.Identity.Web to 0.4.0-preview
+2020-09-11 Updated Microsoft.Identity.Web to 0.4.0-preview
 
 2020-08-27 Updated Microsoft.Identity.Web to 0.3.0-preview
 
