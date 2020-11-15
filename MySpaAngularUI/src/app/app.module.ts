@@ -31,10 +31,10 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'unauthorized', component: UnauthorizedComponent },
-    ]),
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent },
+], { relativeLinkResolution: 'legacy' }),
     AuthModule.forRoot(),
     HttpClientModule,
   ],
