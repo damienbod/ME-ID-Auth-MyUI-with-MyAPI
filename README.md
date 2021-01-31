@@ -20,6 +20,8 @@ https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registratio
 
 # History
 
+2021-01-31 Updated Microsoft.Identity.Web to 1.5.1
+
 2021-01-02 Updated Microsoft.Identity.Web to 1.4.1
 
 2020-12-05 Updated to .NET 5, Angular 11.0.3, oidc lib
