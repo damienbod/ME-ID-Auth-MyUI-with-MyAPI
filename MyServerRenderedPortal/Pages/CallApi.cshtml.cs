@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Web;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace MyServerRenderedPortal.Pages
 {
+    [AuthorizeForScopes(Scopes = new string[] { "api://98328d53-55ec-4f14-8407-0ca5ff2f2d20/access_as_user" })]
     public class CallApiModel : PageModel
     {
         private readonly ApiService _apiService;

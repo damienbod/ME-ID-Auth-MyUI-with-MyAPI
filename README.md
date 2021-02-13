@@ -11,6 +11,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2021-02-13 Updated Microsoft.Identity.Web to 1.6.0, added MSAL exception handling
+
 2021-01-31 Updated Microsoft.Identity.Web to 1.5.1
 
 2021-01-02 Updated Microsoft.Identity.Web to 1.4.1
