@@ -11,6 +11,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2021-03-05 Switch to SPA with refresh tokens due to IFrame problems
+
 2021-02-28 Updated Microsoft.Identity.Web to 1.7.0
 
 2021-02-13 Updated Microsoft.Identity.Web to 1.6.0, added MSAL exception handling

@@ -23,7 +23,10 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
             maxIdTokenIatOffsetAllowedInSeconds: 600,
             issValidationOff: false, // this needs to be true if using a common endpoint in Azure
             autoUserinfo: false,
-            logLevel: LogLevel.Debug
+            logLevel: LogLevel.Debug,
+            customParams: {
+              prompt: 'select_account', // login, consent
+            },
     });
 }
 

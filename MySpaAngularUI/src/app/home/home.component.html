@@ -3,6 +3,7 @@
 <div *ngIf="isAuthenticated$ | async as isAuthenticated; else noAuth">
   <button (click)="logout()">Logout</button>
   <button (click)="callApi()">Call API</button>
+  <button (click)="refreshSession()">Refresh session</button>
   <hr />
 
   <br />
