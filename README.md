@@ -11,6 +11,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2021-07-01 Updated Microsoft.Identity.Web and packages
+
 2021-05-13 Updated Microsoft.Identity.Web to 1.9.2 and packages
 
 2021-04-15 Updated Microsoft.Identity.Web to 1.9.1
