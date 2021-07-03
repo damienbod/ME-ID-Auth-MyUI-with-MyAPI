@@ -21,7 +21,7 @@ import { AuthModule, LogLevel } from 'angular-auth-oidc-client';
   ], { relativeLinkResolution: 'legacy' }),
   AuthModule.forRoot({
     config: {
-      stsServer: 'https://login.microsoftonline.com/7ff95b15-dc21-4ba6-bc92-824856578fc1/v2.0',
+      authority: 'https://login.microsoftonline.com/7ff95b15-dc21-4ba6-bc92-824856578fc1/v2.0',
       authWellknownEndpointUrl: 'https://login.microsoftonline.com/7ff95b15-dc21-4ba6-bc92-824856578fc1/v2.0',
       redirectUrl: window.location.origin,
       clientId: 'ad6b0351-92b4-4ee9-ac8d-3e76e5fd1c67',
