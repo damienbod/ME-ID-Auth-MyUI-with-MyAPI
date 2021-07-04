@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
   userData$: Observable<any>;
   dataFromAzureProtectedApi$: Observable<any>;
-  isAuthenticated$: Observable<boolean>;
+  isAuthenticated = false;
   constructor(
     private authservice: AuthService,
     private httpClient: HttpClient
@@ -19,7 +19,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.userData$ = this.authservice.userData;
-    this.isAuthenticated$ = this.authservice.signedIn;
+
+    this.authservice.signedIn.subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+
+      console.warn('authenticated: ', isAuthenticated);
+    });
   }
 
   callApi() {
