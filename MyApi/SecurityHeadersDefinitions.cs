@@ -24,19 +24,6 @@ namespace MyApi
                 {
                     builder.SameOrigin();
                 })
-                .AddContentSecurityPolicy(builder =>
-                {
-                    builder.AddObjectSrc().None();
-                    builder.AddBlockAllMixedContent();
-                    builder.AddImgSrc().Self().From("data:");
-                    builder.AddFormAction().Self();
-                    builder.AddFontSrc().Self();
-                    builder.AddStyleSrc().Self(); // .UnsafeInline();
-                    builder.AddBaseUri().Self();
-                    builder.AddScriptSrc().UnsafeInline().WithNonce();
-                    builder.AddFrameAncestors().None();
-                    // builder.AddCustomDirective("require-trusted-types-for", "'script'");
-                })
                 .RemoveServerHeader()
                 .AddPermissionsPolicy(builder =>
                 {
@@ -58,8 +45,36 @@ namespace MyApi
 
             if (!isDev)
             {
+                policy.AddContentSecurityPolicy(builder =>
+                {
+                    builder.AddObjectSrc().None();
+                    builder.AddBlockAllMixedContent();
+                    builder.AddImgSrc().None();
+                    builder.AddFormAction().None();
+                    builder.AddFontSrc().None();
+                    builder.AddStyleSrc().None();
+                    builder.AddScriptSrc().None();
+                    builder.AddBaseUri().Self();
+                    builder.AddFrameAncestors().None();
+                    builder.AddCustomDirective("require-trusted-types-for", "'script'");
+                });
                 // maxage = one year in seconds
                 policy.AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365);
+            }
+            else
+            {
+                policy.AddContentSecurityPolicy(builder =>
+                {
+                     builder.AddObjectSrc().None();
+                     builder.AddBlockAllMixedContent();
+                     builder.AddImgSrc().Self().From("data:");
+                     builder.AddFormAction().Self();
+                     builder.AddFontSrc().Self();
+                     builder.AddStyleSrc().Self().UnsafeInline();
+                     builder.AddScriptSrc().Self().UnsafeInline(); //.WithNonce();
+                     builder.AddBaseUri().Self();
+                     builder.AddFrameAncestors().None();
+                });
             }
 
             return policy;
