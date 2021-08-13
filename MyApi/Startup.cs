@@ -68,6 +68,9 @@ namespace MyApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSecurityHeaders(
+                SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
+
             app.UseCors("AllowAllOrigins");
 
             app.UseHttpsRedirection();
