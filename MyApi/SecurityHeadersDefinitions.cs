@@ -63,6 +63,7 @@ namespace MyApi
             }
             else
             {
+                // allow swagger UI for dev
                 policy.AddContentSecurityPolicy(builder =>
                 {
                      builder.AddObjectSrc().None();
