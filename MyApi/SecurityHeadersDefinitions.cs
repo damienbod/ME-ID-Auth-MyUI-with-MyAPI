@@ -43,6 +43,13 @@ namespace MyApi
                     builder.AddUsb().None();
                 });
 
+            AddCspHstsDefinitions(isDev, policy);
+
+            return policy;
+        }
+
+        private static void AddCspHstsDefinitions(bool isDev, HeaderPolicyCollection policy)
+        {
             if (!isDev)
             {
                 policy.AddContentSecurityPolicy(builder =>
@@ -66,19 +73,17 @@ namespace MyApi
                 // allow swagger UI for dev
                 policy.AddContentSecurityPolicy(builder =>
                 {
-                     builder.AddObjectSrc().None();
-                     builder.AddBlockAllMixedContent();
-                     builder.AddImgSrc().Self().From("data:");
-                     builder.AddFormAction().Self();
-                     builder.AddFontSrc().Self();
-                     builder.AddStyleSrc().Self().UnsafeInline();
-                     builder.AddScriptSrc().Self().UnsafeInline(); //.WithNonce();
-                     builder.AddBaseUri().Self();
-                     builder.AddFrameAncestors().None();
+                    builder.AddObjectSrc().None();
+                    builder.AddBlockAllMixedContent();
+                    builder.AddImgSrc().Self().From("data:");
+                    builder.AddFormAction().Self();
+                    builder.AddFontSrc().Self();
+                    builder.AddStyleSrc().Self().UnsafeInline();
+                    builder.AddScriptSrc().Self().UnsafeInline(); //.WithNonce();
+                    builder.AddBaseUri().Self();
+                    builder.AddFrameAncestors().None();
                 });
             }
-
-            return policy;
         }
     }
 }
