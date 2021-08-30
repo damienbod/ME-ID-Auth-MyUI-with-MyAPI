@@ -7,7 +7,10 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 	<li><a href="https://damienbod.com/2020/06/08/angular-spa-with-an-asp-net-core-api-using-azure-ad-auth-and-user-access-tokens/">Angular SPA with an ASP.NET Core API using Azure AD Auth and user access tokens</a></li>
     <li><a href="https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api-using-azure-ad-groups/">Restricting access to an Azure AD protected API using Azure AD Groups</a></li>
     <li><a href="https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registrations/">Using Azure CLI to create Azure App Registrations</a></li>
+    <li><a href="https://damienbod.com/2021/08/30/improving-application-security-in-an-asp-net-core-api-using-http-headers-part-3/">Improving application security in an ASP.NET Core API using HTTP headers</a></li>
 </ul>
+
+
 
 # History
 
