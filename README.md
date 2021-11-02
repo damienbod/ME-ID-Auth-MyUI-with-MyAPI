@@ -10,9 +10,9 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
     <li><a href="https://damienbod.com/2021/08/30/improving-application-security-in-an-asp-net-core-api-using-http-headers-part-3/">Improving application security in an ASP.NET Core API using HTTP headers</a></li>
 </ul>
 
-
-
 # History
+
+2021-11-02 Update to .NET 6
 
 2021-08-13 Securtiy headers and api update
 
