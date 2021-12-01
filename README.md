@@ -1,3 +1,5 @@
+[![.NET](https://github.com/damienbod/AzureAD-Auth-MyUI-with-MyAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/AzureAD-Auth-MyUI-with-MyAPI/actions/workflows/dotnet.yml)
+
 # Azure AD authentication and authorization
 
 different examples of implementing UIs, APIs using Azure AD as the token server. 
