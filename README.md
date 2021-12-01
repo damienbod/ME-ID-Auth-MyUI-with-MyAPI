@@ -14,9 +14,11 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2021-12-01 Updated Angular packages
+
 2021-11-02 Update to .NET 6
 
-2021-08-13 Securtiy headers and api update
+2021-08-13 Security headers and api update
 
 2021-07-01 Updated Microsoft.Identity.Web and packages
 
