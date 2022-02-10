@@ -14,6 +14,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2022-02-10 Updated namespaces
+
 2022-01-08 Updated Angular packages, Nuget packages
 
 2021-12-01 Updated Angular packages
