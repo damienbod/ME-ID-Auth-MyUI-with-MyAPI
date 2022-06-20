@@ -26,7 +26,7 @@ public class Startup
 
         services.AddOptions();
 
-        string[] initialScopes = Configuration.GetValue<string>("CallApi:ScopeForAccessToken")?.Split(' ');
+        string[]? initialScopes = Configuration.GetValue<string>("CallApi:ScopeForAccessToken")?.Split(' ');
 
         services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
             .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
