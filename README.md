@@ -14,6 +14,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2022-10-08 Updated packages
+
 2022-06-20 .NET 6 styles
 
 2022-02-10 Updated namespaces
