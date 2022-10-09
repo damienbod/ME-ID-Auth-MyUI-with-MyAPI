@@ -6,12 +6,19 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 export class AuthService {
   constructor(private oidcSecurityService: OidcSecurityService) {}
 
+  accessToken = '';
+
   get signedIn() {
     return this.oidcSecurityService.isAuthenticated$;
   }
 
-  get token() {
-    return this.oidcSecurityService.getAccessToken();
+  get token(): string {
+
+    this.oidcSecurityService.getAccessToken().subscribe((token) => {
+      this.accessToken = token;
+    });
+
+    return this.accessToken;
   }
 
   get userData() {
