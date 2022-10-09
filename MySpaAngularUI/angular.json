@@ -116,7 +116,6 @@
       }
     }
   },
-  "defaultProject": "angular-oidc-oauth2",
   "cli": {
     "analytics": false
   }
