@@ -24,9 +24,16 @@ public class ApiService
         var client = _clientFactory.CreateClient();
 
         var scope = _configuration["CallApi:ScopeForAccessToken"];
+
+        if (scope == null)
+            throw new ArgumentNullException("scope configuration not set ");
+
         var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { scope });
 
-        client.BaseAddress = new Uri(_configuration["CallApi:ApiBaseAddress"]);
+        string? url = _configuration["CallApi:ApiBaseAddress"];
+        if (url != null)
+            client.BaseAddress = new Uri(url);
+
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
