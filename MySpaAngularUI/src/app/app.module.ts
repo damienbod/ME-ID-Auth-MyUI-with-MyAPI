@@ -18,7 +18,7 @@ import { AuthModule, LogLevel } from 'angular-auth-oidc-client';
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'unauthorized', component: UnauthorizedComponent },
-  ], { relativeLinkResolution: 'legacy' }),
+  ], {}),
   AuthModule.forRoot({
     config: {
       authority: 'https://login.microsoftonline.com/7ff95b15-dc21-4ba6-bc92-824856578fc1/v2.0',
