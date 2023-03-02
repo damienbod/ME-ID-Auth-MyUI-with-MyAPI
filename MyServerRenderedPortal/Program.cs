@@ -22,9 +22,11 @@ services.AddOptions();
 
 string[]? initialScopes = configuration.GetValue<string>("CallApi:ScopeForAccessToken")?.Split(' ');
 
+services.AddDistributedMemoryCache();
+
 services.AddMicrosoftIdentityWebAppAuthentication(configuration)
     .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-    .AddInMemoryTokenCaches();
+    .AddDistributedTokenCaches();
 
 services.AddRazorPages().AddMvcOptions(options =>
 {
