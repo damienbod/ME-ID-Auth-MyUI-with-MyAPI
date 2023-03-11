@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace MyApi;
+﻿namespace MyApi;
 
 public static class SecurityHeadersDefinitions
 {
@@ -34,6 +32,8 @@ public static class SecurityHeadersDefinitions
             });
 
         AddCspHstsDefinitions(isDev, policy);
+
+        policy.ApplyDocumentHeadersToAllResponses();
 
         return policy;
     }
