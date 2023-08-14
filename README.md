@@ -12,6 +12,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 # History
 
+2023-08-14 Updated packages
+
 2023-04-28 Updated packages
 
 2023-03-11 Updated Security Headers to always apply
