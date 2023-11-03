@@ -12,7 +12,8 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 
 > [!NOTE]  
 > Switch to BFF security
-> It is now recommended to use BFF security instead of two separate applications with seperate security contexts. 
+>
+> It is now recommended to use backend for frontend security instead of two separate applications with seperate security contexts. 
 > 
 > See the following for implementation details:
 > 
