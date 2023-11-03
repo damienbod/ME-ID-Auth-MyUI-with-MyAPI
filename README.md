@@ -10,13 +10,13 @@ different examples of implementing UIs, APIs using Azure AD as the token server.
 - [Using Azure CLI to create Azure App Registrations](https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registrations/)
 - [Improving application security in an ASP.NET Core API using HTTP headers](https://damienbod.com/2021/08/30/improving-application-security-in-an-asp-net-core-api-using-http-headers-part-3/)
 
-## Switch to BFF security
-
-It is now recommended to use BFF security instead of two separate applications with seperate security contexts. 
-
-See the following for implementation details:
-
-https://github.com/damienbod/bff-aspnetcore-angular
+> [!NOTE]  
+> Switch to BFF security
+> It is now recommended to use BFF security instead of two separate applications with seperate security contexts. 
+> 
+> See the following for implementation details:
+> 
+> https://github.com/damienbod/bff-aspnetcore-angular
 
 ## History
 
