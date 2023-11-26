@@ -1,12 +1,12 @@
 [![.NET](https://github.com/damienbod/AzureAD-Auth-MyUI-with-MyAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/AzureAD-Auth-MyUI-with-MyAPI/actions/workflows/dotnet.yml)
 
-# Azure AD authentication and authorization
+# Microsoft Entra ID  authentication and authorization
 
-different examples of implementing UIs, APIs using Azure AD as the token server. 
+different examples of implementing UIs, APIs using Microsoft Entra ID  as the token server. 
 
-- [Login and use an ASP.NET Core API with Azure AD Auth and user access tokens](https://damienbod.com/2020/05/29/login-and-use-asp-net-core-api-with-azure-ad-auth-and-user-access-tokens/)
-- [Angular SPA with an ASP.NET Core API using Azure AD Auth and user access tokens](https://damienbod.com/2020/06/08/angular-spa-with-an-asp-net-core-api-using-azure-ad-auth-and-user-access-tokens/)
-- [Restricting access to an Azure AD protected API using Azure AD Groups](https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api-using-azure-ad-groups/)
+- [Login and use an ASP.NET Core API with Microsoft Entra ID Auth and user access tokens](https://damienbod.com/2020/05/29/login-and-use-asp-net-core-api-with-azure-ad-auth-and-user-access-tokens/)
+- [Angular SPA with an ASP.NET Core API using Microsoft Entra ID Auth and user access tokens](https://damienbod.com/2020/06/08/angular-spa-with-an-asp-net-core-api-using-azure-ad-auth-and-user-access-tokens/)
+- [Restricting access to an Microsoft Entra ID protected API using Microsoft Entra ID  Groups](https://damienbod.com/2020/06/13/restricting-access-to-an-azure-ad-protected-api-using-azure-ad-groups/)
 - [Using Azure CLI to create Azure App Registrations](https://damienbod.com/2020/06/22/using-azure-cli-to-create-azure-app-registrations/)
 - [Improving application security in an ASP.NET Core API using HTTP headers](https://damienbod.com/2021/08/30/improving-application-security-in-an-asp-net-core-api-using-http-headers-part-3/)
 
