@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using MyApi;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 
@@ -17,6 +18,12 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 var services = builder.Services;
 var configuration = builder.Configuration;
 var env = builder.Environment;
+
+services.AddSecurityHeaderPolicies()
+  .SetPolicySelector((PolicySelectorContext ctx) =>
+  {
+      return SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment());
+  });
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 // IdentityModelEventSource.ShowPII = true;
@@ -92,8 +99,7 @@ services.AddSwaggerGen(c =>
 });
 var app = builder.Build();
 
-app.UseSecurityHeaders(
-    SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
+app.UseSecurityHeaders();
 
 if (env.IsDevelopment())
 {
