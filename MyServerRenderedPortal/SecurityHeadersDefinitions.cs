@@ -16,12 +16,18 @@ public static class SecurityHeadersDefinitions
                 builder.AddObjectSrc().None();
                 builder.AddBlockAllMixedContent();
                 builder.AddImgSrc().Self().From("data:");
-                builder.AddFormAction().Self();
+                // Disable due to teams and Chrome
+                //builder.AddFormAction().Self().From(idpHost);
                 builder.AddFontSrc().Self();
-                builder.AddStyleSrc().Self(); // .UnsafeInline();
                 builder.AddBaseUri().Self();
-                builder.AddScriptSrc().UnsafeInline().WithNonce();
                 builder.AddFrameAncestors().None();
+
+                builder.AddStyleSrc().WithNonce().UnsafeInline();
+
+                builder.AddScriptSrc()
+                    .WithNonce()
+                    .WithHash256("j7OoGArf6XW6YY4cAyS3riSSvrJRqpSi1fOF9vQ5SrI=")
+                    .UnsafeInline();
             })
             .RemoveServerHeader()
             .AddPermissionsPolicyWithDefaultSecureDirectives();
