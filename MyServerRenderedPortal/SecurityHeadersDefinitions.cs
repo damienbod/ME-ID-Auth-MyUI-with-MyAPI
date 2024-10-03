@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace MyServerRenderedPortal;
+﻿namespace MyServerRenderedPortal;
 
 public static class SecurityHeadersDefinitions
 {
