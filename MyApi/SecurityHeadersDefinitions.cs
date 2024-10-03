@@ -32,8 +32,6 @@ public static class SecurityHeadersDefinitions
 
         AddCspHstsDefinitions(isDev, policy);
 
-        policy.ApplyDocumentHeadersToAllResponses();
-
         return policy;
     }
 
