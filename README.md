@@ -21,6 +21,7 @@ different examples of implementing UIs, APIs using Microsoft Entra ID  as the to
 
 ## History
 
+- 2024-10-03 Updated packages, update security headers
 - 2024-08-08 Updated packages
 - 2023-11-26 Updated .NET 8
 - 2023-11-03 Updated packages, fix security headers
