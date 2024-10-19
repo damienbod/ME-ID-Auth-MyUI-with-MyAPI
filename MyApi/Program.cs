@@ -19,11 +19,33 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var env = builder.Environment;
 
-services.AddSecurityHeaderPolicies()
-  .SetPolicySelector((PolicySelectorContext ctx) =>
-  {
-      return SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment());
-  });
+// Open up security restrictions to allow this to work
+// Not recommended in production
+var deploySwaggerUI = builder.Configuration.GetValue<bool>("DeploySwaggerUI");
+var isDev = builder.Environment.IsDevelopment();
+
+builder.Services.AddSecurityHeaderPolicies()
+    .SetPolicySelector((PolicySelectorContext ctx) =>
+    {
+        // sum is weak security headers due to Swagger UI deployment
+        // should only use in development
+        if (deploySwaggerUI)
+        {
+            // Weakened security headers for Swagger UI
+            if (ctx.HttpContext.Request.Path.StartsWithSegments("/swagger"))
+            {
+                return SecurityHeadersDefinitionsSwagger.GetHeaderPolicyCollection(isDev);
+            }
+
+            // Strict security headers
+            return SecurityHeadersDefinitionsAPI.GetHeaderPolicyCollection(isDev);
+        }
+        // Strict security headers for production
+        else
+        {
+            return SecurityHeadersDefinitionsAPI.GetHeaderPolicyCollection(isDev);
+        }
+    });
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 // IdentityModelEventSource.ShowPII = true;
