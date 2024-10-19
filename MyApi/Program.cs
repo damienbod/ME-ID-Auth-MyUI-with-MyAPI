@@ -17,7 +17,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 
 var services = builder.Services;
 var configuration = builder.Configuration;
-var env = builder.Environment;
 
 // Open up security restrictions to allow this to work
 // Not recommended in production
@@ -123,7 +122,7 @@ var app = builder.Build();
 
 app.UseSecurityHeaders();
 
-if (env.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 

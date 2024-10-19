@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "MyServerRenderedPortal\\MyServerRenderedPortal.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "MyApi\\MyApi.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
