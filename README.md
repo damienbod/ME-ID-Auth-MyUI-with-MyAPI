@@ -21,6 +21,7 @@ different examples of implementing UIs, APIs using Microsoft Entra ID  as the to
 
 ## History
 
+- 2025-01-05 Updated packages, .NET 9, Bootstrap 5
 - 2024-10-19 Updated packages, update security headers
 - 2024-10-03 Updated packages, update security headers
 - 2024-08-08 Updated packages
