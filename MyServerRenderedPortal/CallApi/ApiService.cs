@@ -27,7 +27,7 @@ public class ApiService
         if (scope == null)
             throw new ArgumentNullException("scope configuration not set ");
 
-        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { scope });
+        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync([scope]);
 
         string? url = _configuration["CallApi:ApiBaseAddress"];
         if (url != null)
