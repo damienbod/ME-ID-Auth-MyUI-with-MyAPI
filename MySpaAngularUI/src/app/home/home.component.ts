@@ -5,8 +5,9 @@ import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.component.html',
+    selector: 'app-home',
+    templateUrl: 'home.component.html',
+    standalone: false
 })
 export class HomeComponent implements OnInit {
   userData$: Observable<any>;
