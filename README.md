@@ -13,7 +13,7 @@ different examples of implementing UIs, APIs using Microsoft Entra ID  as the to
 > [!NOTE]  
 > Switch to BFF security
 >
-> It is now recommended to use backend for frontend security instead of two separate applications with seperate security contexts. 
+> It is now recommended to use backend for frontend security instead of two separate applications with separate security contexts. 
 > 
 > See the following for implementation details:
 > 
